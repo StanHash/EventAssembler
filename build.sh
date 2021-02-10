@@ -20,6 +20,8 @@ cp -R "$eastdlib_src/Language Raws" $root_dir/.
 cp -R "$eastdlib_src/EA Standard Library" $root_dir/.
 cp -R "$eastdlib_src/Extensions" $root_dir/.
 
+cp "$root_dir/.Sources/Tool Helpers.txt" $root_dir/Tools/.
+
 # EA Tools
 
 mkdir -p $root_dir/Tools
