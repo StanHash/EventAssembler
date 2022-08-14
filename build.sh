@@ -15,41 +15,44 @@ dotnet publish -o $root_dir $colorzcore_src/ColorzCore/ColorzCore.csproj
 
 # EA Standard Library
 
-cp "$eastdlib_src/EAstdlib.event" $root_dir/.
-cp -R "$eastdlib_src/Language Raws" $root_dir/.
-cp -R "$eastdlib_src/EA Standard Library" $root_dir/.
-cp -R "$eastdlib_src/Extensions" $root_dir/.
-
-cp "$root_dir/.Sources/Tool Helpers.txt" $root_dir/Tools/.
+cp "$eastdlib_src/EAstdlib.event" $root_dir/
+cp -R "$eastdlib_src/Language Raws" $root_dir/
+cp -R "$eastdlib_src/EA Standard Library" $root_dir/
+cp -R "$eastdlib_src/Extensions" $root_dir/
 
 # EA Tools
 
 mkdir -p $root_dir/Tools
 
+cp "$root_dir/.Sources/Tool Helpers.txt" $root_dir/Tools/
+
 # - EAFormattingSuite
 
 cd $eafs_src
 
-# cabal v2-install --install-method=copy --installdir=$root_dir/Tools --overwrite-policy=always
 cabal v1-install --bindir=$root_dir/Tools
 
 # - compress
 
 make -C $compress_src
-cp $compress_src/compress $root_dir/Tools/.
+cp $compress_src/compress $root_dir/Tools/
 
 # - lyn
 
-cd $(mktemp -d)
+lyn_tmp=$(mktemp -d)
+pushd $lyn_tmp
 cmake $lyn_src
 cmake --build .
-cp lyn $root_dir/Tools/.
+cp lyn $root_dir/Tools/
+popd
+rm -rf $lyn_tmp
 
 # ea-dep
 
-mkdir -p $root_dir
-
-cd $(mktemp -d)
+eadep_tmp=$(mktemp -d)
+pushd $eadep_tmp
 cmake $eadep_src
 cmake --build .
-cp ea-dep $root_dir/.
+cp ea-dep $root_dir/
+popd
+rm -rf $eadep_tmp
